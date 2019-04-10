@@ -36,13 +36,16 @@ def load_remote_poc():
         _suffix = "/API.json"
         _profix = WEB_REPOSITORY.replace("github.com", "raw.githubusercontent.com")
         _api = _profix + _middle + _suffix
-        r = requests.get(_api)
-        datas = json.loads(r.text, encoding='utf-8')
-        for data in datas:
-            data["webfile"] = _profix + _middle + data["filepath"]
-        with open(filename, "w") as f:
-            json.dump(datas, f)
-
+        try:
+            r = requests.get(_api)
+            datas = json.loads(r.text, encoding='utf-8')
+            for data in datas:
+                data["webfile"] = _profix + _middle + data["filepath"]
+            with open(filename, "w") as f:
+                json.dump(datas, f)
+        except:
+            pass
+        
     with open(filename) as f:
         datas = json.load(f)
     return datas
